@@ -1,93 +1,62 @@
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TestScanner {
 
-    public static void main(String[] args) {
-    	Graphe g = new Graphe("g.txt");
-    	Graphe g1 = new Graphe("g1.txt");
-    	Graphe g2 = new Graphe("g2.txt");
-    	Graphe g3 = new Graphe("g3.txt");
-    	Graphe g4 = new Graphe("g4.txt");
-    	Graphe g5 = new Graphe("g5.txt");
-    	Graphe g6 = new Graphe("g6.txt");
-    	Graphe g7 = new Graphe("g7.txt");
-    	Graphe g8 = new Graphe("g8.txt");
-    	Graphe g9 = new Graphe("g9.txt");
-    	Graphe g10 = new Graphe("g10.txt");
-    	Graphe g11 = new Graphe("g11.txt");
-    	Graphe g12 = new Graphe("g12.txt");
-    	Graphe g13 = new Graphe("g13.txt");
-    	
-    	System.out.println(g);
-    	g.Floyd_Warshall();
-    	
-    	System.out.println(g1);
-    	g1.Floyd_Warshall();
-    	
-    	System.out.println(g2);
-    	g2.Floyd_Warshall();
-    	
-    	System.out.println(g3);
-    	g3.Floyd_Warshall();
-    	
-    	System.out.println(g4);
-    	g4.Floyd_Warshall();
-    	
-    	System.out.println(g5);
-    	g5.Floyd_Warshall();
-    	
-    	System.out.println(g6);
-    	g6.Floyd_Warshall();
-    	
-    	System.out.println(g7);
-    	g7.Floyd_Warshall();
-    	
-    	System.out.println(g8);
-    	g8.Floyd_Warshall();
-    	
-    	System.out.println(g9);
-    	g9.Floyd_Warshall();
-    	
-    	System.out.println(g10);
-    	g10.Floyd_Warshall();
-    	
-    	System.out.println(g11);
-    	g11.Floyd_Warshall();
-    	
-    	System.out.println(g12);
-    	g12.Floyd_Warshall();
-    	
-    	System.out.println(g13);
-    	g13.Floyd_Warshall();
-    
-    }
+	public static ArrayList<Graphe> graphes = new ArrayList<Graphe>();
+
+	public static void main(String[] args) {
+
+		for (int i = 1; i <= 13; i++) {
+			String f = "g" + i + ".txt";
+			Graphe g = new Graphe(f);
+			graphes.add(g);
+		}
+
+		startXp();
+
+	}
+
+	private static void startXp() {
+		System.out.println("which graph would you like to see ?");
+		Scanner graphIdScan = new Scanner(System.in); // Create a Scanner object
+
+		int graphId = Integer.parseInt(graphIdScan.nextLine()); // Read user input
+		if (graphId < 1 || graphId > 13) {
+			System.out.println("That graph doesnt exist\n");
+		} else {
+			System.out.println("Here is the graph: \n" + graphes.get(graphId - 1));
+			System.out.println(graphes.get(graphId - 1).Floyd_Warshall());
+
+			Graphe currG = graphes.get(graphId - 1);
+
+			MyGraph testGraph = new MyGraph(currG.getNb_sommets());
+			// ADDING EDGES
+			for (int i = 0; i < currG.getNb_sommets(); i++) {
+				for (int j = 0; j < currG.getNb_sommets(); j++) {
+
+					if (currG.getMatrice()[i][j] != 0) {
+						testGraph.addEdge(i, j);
+					}
+				}
+			}
+
+			if (testGraph.isCyclic())
+				System.out.println("Graph contains cycle");
+			else
+				System.out.println("Graph doesn't " + "contain cycle");
+		}
+
+		System.out.println("\nwould you like to try another graph ? (yes/no)\n");
+		Scanner anotherScan = new Scanner(System.in); // Create a Scanner object
+		String another = graphIdScan.nextLine(); // Read user input
+		System.out.println(another);
+
+		if (another.equals("yes")) {
+			startXp();
+		} else {
+			return;
+		}
+
+	}
 }
-
-/*
-Graphe g1 = new Graphe("g1.txt");
-Graphe g2 = new Graphe("g2.txt");
-Graphe g3 = new Graphe("g3.txt");
-Graphe g4 = new Graphe("g4.txt");
-Graphe g5 = new Graphe("g5.txt");
-Graphe g6 = new Graphe("g6.txt");
-Graphe g7 = new Graphe("g7.txt");
-Graphe g8 = new Graphe("g8.txt");
-Graphe g9 = new Graphe("g9.txt");
-Graphe g10 = new Graphe("g10.txt");
-Graphe g11 = new Graphe("g11.txt");
-Graphe g12 = new Graphe("g12.txt");
-Graphe g13 = new Graphe("g13.txt");
-
-System.out.println(g1);
-System.out.println(g2);
-System.out.println(g3);
-System.out.println(g4);
-System.out.println(g5);
-System.out.println(g6);
-System.out.println(g7);
-System.out.println(g8);
-System.out.println(g9);
-System.out.println(g10);
-System.out.println(g11);
-System.out.println(g12);
-System.out.println(g13);
-*/
